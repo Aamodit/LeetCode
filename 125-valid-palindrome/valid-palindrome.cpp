@@ -2,22 +2,17 @@ class Solution {
 public:
     bool isPalindrome(string s) {
         string ans;
-        int n = s.length();
-        int m = 0;
-        for (int i = 0; i < n; i++) {
-            if (s[i] >= 65 && s[i] <= 90) {
-                ans.push_back(s[i] + 32);
-                m++;
-            }
-            if ((s[i] >= 97 && s[i] <= 122) || (s[i] >= 48 && s[i] <= 57)) {
 
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] >= 'A' && s[i] <= 'Z') {
+                ans.push_back(s[i] + 32);
+            } else if ((s[i] >= 'a' && s[i] <= 'z') ||
+                       (s[i] >= '0' && s[i] <= '9')) {
                 ans.push_back(s[i]);
-                m++;
             }
         }
-        for (int i = 0; i < m; i++) {
-            cout << ans[i];
-        }
+
+        int m = ans.length();
         for (int i = 0; i < m / 2; i++) {
             if (ans[i] != ans[m - 1 - i])
                 return false;
