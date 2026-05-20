@@ -7,13 +7,19 @@ public:
             res.push_back(ans);
             return;
         }
+
+        // include
         ans.push_back(nums[i]);
         ps(nums, ans, i + 1);
         ans.pop_back();
-        do {
-            i++;
-        } while (i < nums.size() && nums[i] == nums[i - 1]);
-        ps(nums, ans, i);
+
+        // exclude + skip duplicates
+        int idx = i;
+        while (idx < nums.size() && nums[idx] == nums[i]) {
+            idx++;
+        }
+
+        ps(nums, ans, idx);
     }
 
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
