@@ -1,26 +1,44 @@
 class Solution {
 public:
     vector<vector<int>> ans;
+
     vector<int> path;
-    vector<int> N;
-    int n;
-    void s(int i, int t) {
-        if (t == 0) {
+
+    void solve(int i, vector<int>& nums, int target) {
+
+        // target achieved
+        if (target == 0) {
+
             ans.push_back(path);
+
             return;
         }
-        if (t < 0 || i >= n) {
+
+        // out of bounds
+        if (i >= nums.size())
             return;
-        }
-        path.push_back(N[i]);
-        s(i, t - N[i]);
+
+        // pruning
+        if (nums[i] > target)
+            return;
+
+        // take current element
+        path.push_back(nums[i]);
+
+        solve(i, nums, target - nums[i]);
+
         path.pop_back();
-        s(i + 1, t);
+
+        // skip current element
+        solve(i + 1, nums, target);
     }
-    vector<vector<int>> combinationSum(vector<int>& Nums, int t) {
-        N = Nums;
-        n = Nums.size();
-        s(0, t);
+
+    vector<vector<int>> combinationSum(vector<int>& nums, int target) {
+
+        sort(nums.begin(), nums.end());
+
+        solve(0, nums, target);
+
         return ans;
     }
 };
