@@ -1,34 +1,57 @@
 class Solution {
 public:
     vector<vector<string>> ans;
+
     vector<string> path;
-    bool isP(string s) {
-        int n = s.size();
-        for (int i = 0; i < n / 2; i++) {
-            if (s[i] != s[n - 1 - i]) {
+
+    bool isPalindrome(string& s, int l, int r) {
+
+        while (l < r) {
+
+            if (s[l] != s[r])
                 return false;
-            }
+
+            l++;
+            r--;
         }
+
         return true;
     }
 
-    void solve(string s) {
-        if (s.size() <= 0) {
+    void solve(int start, string& s) {
+
+        // entire string partitioned
+        if (start == s.size()) {
+
             ans.push_back(path);
+
             return;
         }
-        for (int i = 0; i < s.size(); i++) {
-            string s1 = s.substr(0, i + 1);
-            if (isP(s1)) {
-                path.push_back(s1);
-                solve(s.substr(i + 1));
+
+        // generate all substrings
+        // starting from 'start'
+        for (int end = start; end < s.size(); end++) {
+
+            // palindrome substring
+            if (isPalindrome(s, start, end)) {
+
+                string sub = s.substr(start, end - start + 1);
+
+                path.push_back(sub);
+
+                // recurse for remaining string
+                solve(end + 1, s);
+
+                // backtrack
                 path.pop_back();
             }
         }
     }
 
     vector<vector<string>> partition(string s) {
-        solve(s);
+
+        solve(0, s);
+
         return ans;
     }
 };
